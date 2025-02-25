@@ -119,7 +119,151 @@
                 .finally(function(){
                     console.log(`finally body`);
                     console.log(`end!`);
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
 
+        .signup-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+
+        h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"] {
+            width: 250px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .error-message {
+            color: red;
+            margin-top: 10px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="signup-container">
+        <h2>회원가입</h2>
+        <form id="signup-form">
+            <label for="username">이름:</label>
+            <input type="text" id="username" name="username" required>
+
+            <label for="email">이메일:</label>
+            <input type="email" id="email" name="email" required>
+
+
+            <label for="userid">아이디:</label>
+            <input type="text" id="userid" name="userid" required>
+
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+
+            <button type="submit">가입하기</button>
+
+            <div id="error-message" class="error-message"></div>
+        </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+
+    <script>
+        URL = "http://192.168.100.152:9221/users";
+        $(document).ready(function(){
+            console.log("start!");
+            // 로그인: get -> post 더라
+            //URL="" // id password을 노출시키면 안된다.
+            
+                
+                $('#signup-form').submit( function signup(e) {
+                    console.log("event start!");
+                e.preventDefault();
+                
+                const id = $('#userid').val();
+                const pw = $('#password').val();
+                const name = $('#username').val();
+                const email = $('#email').val();
+
+
+
+
+                
+
+                axios.post(URL, {
+                    userId: id,
+                    userPassword: pw,
+                    userNickname: name,
+                    userEmail: email
+                }) // await axios.get(URL)
+                 // await axios.get(URL)
+                .then(function(response){
+                    console.dir(response.data);
+                    // 해당 주석 작성!
+                })
+                .catch(function(error){
+                    console.log(`catch body: ${error}`);
+                })
+                .finally(function(){
+                    console.log(`finally body`);
+                    console.log(`end!`);
+
+
+                })
+            }
+            
+        )}
+        )
+
+    
+
+    </script>
+
+
+</body>
+
+</html>
                 })
             }
             )
