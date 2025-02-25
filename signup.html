@@ -85,6 +85,49 @@
             <div id="error-message" class="error-message"></div>
         </form>
     </div>
+    
+    <script>
+        URL = "http://192.168.100.163:8080/auth/register";
+        $(document).ready(function(){
+            // 로그인: get -> post 더라
+            //URL="" // id password을 노출시키면 안된다.
+            
+                
+                $('#signup').submit( function signup(e) {
+                e.preventDefault();
+                
+                const id = $('#userid').val();
+                const pw = $('#password').val();
+                const name = $('#username').val();
+                const email = $('#email').val();
+
+
+                
+                axios.post(URL, {
+                    userId: id,
+                    userPassword: pw,
+                    userNickname: name,
+                    userEmail: email
+                }) // await axios.get(URL)
+                .then(function(response){
+                    console.dir(response.data);
+                    // 해당 주석 작성!
+                })
+                .catch(function(error){
+                    console.log(`catch body: ${error}`);
+                })
+                .finally(function(){
+                    console.log(`finally body`);
+                    console.log(`end!`);
+
+                })
+            }
+            )
+        })
+    
+
+    </script>
+
 
 </body>
 </html>
