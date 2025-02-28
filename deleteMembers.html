@@ -1,11 +1,77 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>회원탈퇴</title>
+    <style>
+        body {
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .delete-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px;
+        }
+        h2 {
+            text-align: center;
+            color: #333;
+        }
+        input[type="password"] {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #c82333;
+        }
+    </style>
 </head>
 <body>
-    
+    <div class="delete-container">
+        <h2>회원탈퇴</h2>
+        <form id="delete-form">
+            <input type="password" id="password" placeholder="비밀번호 확인" required>
+            <button type="submit">탈퇴하기</button>
+        </form>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script>
+        document.getElementById('delete-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const password = document.getElementById('password').value;
+            const id = localStorage.getItem('id');
+            axios.delete(`http://192.168.100.152:9221/users/${id}`, {
+                data: { password: password }
+            })
+            .then(function (response) {
+                alert('회원탈퇴가 완료되었습니다.');
+                window.location.href = '/login.html';
+            })
+            .catch(function (error) {
+                alert('회원탈퇴 중 오류가 발생했습니다.');
+                console.error(error);
+            });
+        });
+    </script>
 </body>
 </html>
