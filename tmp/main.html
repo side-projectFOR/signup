@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+</head>
+<body>
+    <h2>메인 페이지</h2>
+    <button onclick="logout()">로그아웃</button>
+    <button onclick=""><a href="./updateMembers.html">회원수정</a></button>
+    <button onclick=""><a href="./deleteMembers.html">회원탈퇴</a></button>
+
+    <script>
+        function logout() {
+            localStorage.removeItem('userIdx');
+            alert('로그아웃되었습니다.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
