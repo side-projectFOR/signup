@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>회원가입</h2>
+    <form id="signup-form">
+        <input type="text" id="username" placeholder="아이디" required>
+        <input type="password" id="password" placeholder="비밀번호" required>
+        <input type="text" id="nickname" placeholder="닉네임" required>
+        <input type="email" id="email" placeholder="이메일" required>
+        <button type="submit">가입하기</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            const URL = "http://192.168.100.152:9221/users";
+
+            $('#signup-form').submit(function(e) {
+                e.preventDefault();
+                
+                const userData = {
+                    userId: $('#username').val(),
+                    userPassword: $('#password').val(),
+                    userNickname: $('#nickname').val(),
+                    userEmail: $('#email').val()
+                };
+
+                axios.post(URL, userData)
+                .then(function(response) {
+                    console.log("회원가입 성공:", response.data);
+                    alert("회원가입이 완료되었습니다!");
+                    window.location.href = 'login.html';
+                })
+                .catch(function(error) {
+                    console.error("회원가입 실패:", error);
+                    alert("회원가입에 실패했습니다.");
+                });
+            });
+        });
+    </script>
+</body>
+</html>
