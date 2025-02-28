@@ -1,7 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>로그인</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <style>
         body {
             background-color: #f4f4f4;
@@ -11,7 +15,7 @@
             align-items: center;
         }
 
-        #aa {
+        #container {
             border: 1px solid #ddd;
             padding: 20px;
             border-radius: 8px;
@@ -21,19 +25,13 @@
             width: 300px;
         }
 
-        #aa h1 {
-            color: #a94c4c; 
+        #container h2 {
+            color: #0056b3; 
             margin-bottom: 15px;
         }
 
-        #aa label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555; 
-        }
-
-        #aa input[type="text"],
-        #aa input[type="password"] {
+        #container input[type="text"],
+        #container input[type="password"] {
             width: 250px; 
             padding: 8px;
             margin-bottom: 10px;
@@ -41,139 +39,57 @@
             border-radius: 4px;
         }
 
-        #aa input[type="submit"] {
+        #container button[type="submit"] {
             background-color: #007bff; 
             color: white;
             padding: 10px 15px;
             border: none;
             border-radius: 4px;
             cursor: pointer;
+            width: 250px;
         }
 
-        #aa input[type="submit"]:hover {
+        #container button[type="submit"]:hover {
             background-color: #0056b3;
-        }
-
-        #bb {
-            border: 1px solid #ddd;
-            padding: 20px;
-            border-radius: 8px;
-            background-color: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: 300px; 
-        }
-
-        #bb h1 {
-            color: #333;
-            margin-bottom: 15px;
-        }
-
-        #bb label {
-            display: block;
-            margin-bottom: 5px;
-            color: #555;
-        }
-
-        #bb input[type="number"] {
-            width: 150px;
-            padding: 8px;
-            margin-bottom: 10px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
-        }
-
-        #bb button {
-            background-color: #007bff;
-            color: white;
-            padding: 10px 15px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-
-        #bb button:hover {
-            background-color: #0056b3; /* Darker green on hover */
-        }
-
-        #bb p {
-            margin-top: 10px;
-            font-weight: bold;
         }
     </style>
 </head>
 <body>
-    <h1>로그인</h1>
-    <form id="login">
-        <label for="username">아이디:</label>
-        <input type="text" id="username" name="username" required><br><br>
+    <div id="container">
+        <h2>로그인</h2>
+        <form id="login-form">
+            <input type="text" id="username" placeholder="아이디" required><br>
+            <input type="password" id="psw" placeholder="비밀번호" required><br>
+            <button type="submit">로그인</button>
+        </form>
+    </div>
 
-        <label for="psw">비밀번호:</label>
-        <input type="password" id="psw" name="psw" required><br><br>
+    <script>
+        $(document).ready(function() {
+            const URL = "http://192.168.100.152:9221/users/login";
 
-        <input type="submit" value="로그인">
-    </form>
-    <h1>랜덤 비밀번호 생성기</h1>
-    <label for="length">길이:</label>
-    <input type="number" id="length" value="12" min="1" max="20"><br><br>
-    <button onclick="generatePassword()">생성</button>
-    <p id="password"></p>
-
-<script src="https://cdn.jsdelivr.net/npm/axios@0.21.1/dist/axios.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-
-
-<script>
-    URL = "http://192.168.100.152:9221/users/login";
-    //URL = ""
-    $(document).ready(function(){
-        // 로그인: get -> post 더라
-        //URL="" // id password을 노출시키면 안된다.
-
-        
-        // submit함수 발생시 어떻게 해야될지 고민해보기: submit 이벤트 발생시켜서 진행해야된다.
-
-            // sumbit을 이미 달아두기 vs script에 달아두기(jQuery vs pure js)
-        
-            
-            $('#login').submit( function login(e) {
-            e.preventDefault();
-            
-            const id = $('#username').val();
-            const pw = $('#psw').val();
-            
-             axios.post(URL, {
-                userId: id,
-                userPassword: pw,
-                // userNickname: "aa",
-                // userEmail: "bb"
-             }) // await axios.get(URL)
-            .then(function(response){
-                console.dir(response.data);
-                // 해당 주석 작성!
-            })
-            .catch(function(error){
-                console.log(`catch body: ${error}`);
-            })
-            .finally(function(){
-                console.log(`finally body`);
-            })
-        }
-        )
-    })
-   
-
-</script>
-<script>
-    function generatePassword() {
-        const length = document.getElementById("length").value;
-        const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
-        let password = "";
-            for (let i = 0; i < length; i++) {
-                password += characters.charAt(Math.floor(Math.random() * characters.length));
-            }
-        document.getElementById("psw").value= password;
-        //document.getElementById("psw").innerText(password);
-}
-</script> 
+            $('#login-form').submit(function(e) {
+                e.preventDefault();
+                
+                const id = $('#username').val();
+                const pw = $('#psw').val();
+                
+                axios.post(URL, {
+                    userId: id,
+                    userPassword: pw,
+                })
+                .then(function(response) {
+                    console.dir(response.data);
+                    localStorage.setItem('userIdx', response.data.userIdx);
+                    alert('로그인 성공!');
+                    window.location.href = 'main.html';
+                })
+                .catch(function(error) {
+                    console.log(`로그인 실패: ${error}`);
+                    alert('로그인에 실패했습니다.');
+                });
+            });
+        });
+    </script>
 </body>
 </html>
