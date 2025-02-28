@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>로그인</h2>
+    <form id="login-form">
+        <input type="text" id="username" placeholder="아이디" required>
+        <input type="password" id="psw" placeholder="비밀번호" required>
+        <button type="submit">로그인</button>
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            const URL = "http://192.168.100.152:9221/users/login";
+
+            $('#login-form').submit(function(e) {
+                e.preventDefault();
+                
+                const id = $('#username').val();
+                const pw = $('#psw').val();
+                
+                axios.post(URL, {
+                    userId: id,
+                    userPassword: pw,
+                })
+                .then(function(response) {
+                    console.dir(response.data);
+                    localStorage.setItem('userIdx', response.data.userIdx);
+                    alert('로그인 성공!');
+                    window.location.href = 'main.html';
+                })
+                .catch(function(error) {
+                    console.log(`로그인 실패: ${error}`);
+                    alert('로그인에 실패했습니다.');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
