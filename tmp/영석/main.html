@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>메인 페이지</title>
+    <style>
+        #line {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, black 50%, transparent 50%);
+        }
+
+        h2 {
+            color: white;
+        }
+
+        #line > div {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 500px;
+            padding: 0 10px;
+            box-sizing: border-box;
+        }
+
+        #line > div > div {
+            display: flex;
+        }
+
+        #line > div > div > button {
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="line">
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+            <h2>메인 페이지</h2>
+            <div>
+                <button onclick="logout()">로그아웃</button>
+                <button onclick=""><a href="./chat.html">채팅</a></button>
+                <button onclick=""><a href="./updateMembers.html">회원수정</a></button>
+                <button onclick=""><a href="./deleteMembers.html">회원탈퇴</a></button>
+            </div>
+        </div>
+    </div>
+    <script>
+        function logout() {
+            localStorage.removeItem('userIdx');
+            alert('로그아웃되었습니다.');
+            window.location.href = 'login.html';
+        }
+    </script>
+</body>
+</html>
