@@ -76,6 +76,53 @@
             margin-top: 10px; /* 상단 여백 */
             text-align: center; /* 가운데 정렬 */
         }
+
+        #random_container {
+            border: 1px solid #ddd;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            width: 300px; 
+        }
+
+        #random_container h1 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        #random_container label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+
+        #random_container input[type="number"] {
+            width: 150px;
+            padding: 8px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        #random_container button {
+            background-color: #007bff;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        #random_container button:hover {
+            background-color: #0056b3; /* Darker green on hover */
+        }
+
+        #random_container p {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        
     </style>
 </head>
 <body>
@@ -107,6 +154,13 @@
             <!-- 오류 메시지를 표시할 컨테이너 -->
             <div id="error-message" class="error-message"></div>
         </form>
+    </div>
+    <div id="random_container">
+        <h2>랜덤 비밀번호 생성기</h2>
+        <label for="length">길이:</label>
+        <input type="number" id="length" value="12" min="1" max="20"><br><br>
+        <button onclick="generatePassword()">생성</button>
+        <p id="password"></p>
     </div>
     <!-- Axios HTTP 클라이언트 라이브러리 - defer 속성 추가 권장 -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -151,6 +205,17 @@
                 });
             });
         });
-    </script>
+        
+
+        function generatePassword() {
+                const length = document.getElementById("length").value;
+                const characters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()";
+                let password = "";
+                for (let i = 0; i < length; i++) {
+                        password += characters.charAt(Math.floor(Math.random() * characters.length));
+                    }
+                document.getElementById("password").innerText = password;
+            }
+        </script>    
 </body>
 </html>
