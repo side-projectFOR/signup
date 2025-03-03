@@ -22,7 +22,15 @@ finally를 뺏다.
 
 만 바뀌었다.
 ```
-3. ㅇ
+3. udate.html에 있는 css만 updateMembers.html에 스타일링 할 예정
+```paintext
+userPasssword는 지훈님이 그렇게 하셨기때문에 그렇게 수정했다.
+해당 부분 토대로 주석 작성완료.
+
+추후, 영석님 코드 기반으로 css를 첨부해볼 생각이다. 하지만, 논의가 필요해보이며, 우선은 내 html 기준으로 스타일링만 살릴 예정.
+https://github.com/side-projectFOR/signup/blob/main/tmp/%EC%98%81%EC%84%9D/update.html
+
+```
 4. ㅇ
 5. ㅇ
 6. ㅇ
