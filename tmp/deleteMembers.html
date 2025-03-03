@@ -81,118 +81,17 @@
             // 확인용 비밀번호 가져오기
             const password = document.getElementById('password').value;
             // 로컬 스토리지에서 사용자 ID 가져오기
-            const id = localStorage.getItem('id'); // userIdx와 키 불일치 - 수정 필요
+            const userIdx = localStorage.getItem('userIdx'); // userIdx와 키 불일치 - 수정 필요
             
+            if (!userIdx) {
+                alert('로그인이 필요합니다.');
+                window.location.href = 'login.html';
+                return;
+            }
             // 확인 대화상자 추가 권장 - 사용자에게 한 번 더 확인
             
             // 사용자 계정 삭제를 위한 DELETE 요청
-            axios.delete(`http://192.168.100.152:9221/users/${id}`, {
-                data: { password: password }
-            })
-            .then(function (response) {
-                // 성공 핸들러
-                alert('회원탈퇴가 완료되었습니다.'); // 모달 또는 토스트 메시지 권장
-                // 로그인 페이지로 리디렉션
-                window.location.href = '/login.html';
-            })
-            .catch(function (error) {
-                // 오류 핸들러 - 상세한 오류 메시지 제공 필요
-                alert('회원탈퇴 중 오류가 발생했습니다.');
-                console.error(error);
-            });
-        });
-    </script>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="ko">
-<head>
-    <!-- 문서의 문자 인코딩 설정 -->
-    <meta charset="UTF-8">
-    <!-- 반응형 웹을 위한 뷰포트 설정 -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 페이지 제목 -->
-    <title>회원탈퇴</title>
-    <!-- 인라인 CSS 스타일 - 별도 파일로 분리 권장 -->
-    <style>
-        /* 전체 페이지 스타일링 - 중앙 정렬 */
-        body {
-            background-color: #f4f4f4; /* 연한 회색 배경 */
-            display: flex; /* flexbox 레이아웃 */
-            justify-content: center; /* 수평 중앙 정렬 */
-            align-items: center; /* 수직 중앙 정렬 */
-            height: 100vh; /* 전체 뷰포트 높이 */
-            margin: 0; /* 기본 마진 제거 */
-        }
-        /* 탈퇴 폼 컨테이너 */
-        .delete-container {
-            background-color: white; /* 흰색 배경 */
-            padding: 20px; /* 내부 여백 */
-            border-radius: 8px; /* 둥근 모서리 */
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
-            width: 300px; /* 고정 너비 - 상대 단위 권장 */
-        }
-        /* 제목 스타일 */
-        h2 {
-            text-align: center; /* 중앙 정렬 */
-            color: #333; /* 어두운 회색 */
-        }
-        /* 비밀번호 입력 필드 스타일 */
-        input[type="password"] {
-            width: 100%; /* 전체 너비 */
-            padding: 8px; /* 내부 여백 */
-            margin: 10px 0; /* 상하 여백 */
-            border: 1px solid #ccc; /* 연한 회색 테두리 */
-            border-radius: 4px; /* 둥근 모서리 */
-        }
-        /* 버튼 스타일 - 위험 동작을 나타내는 빨간색 */
-        button {
-            width: 100%; /* 전체 너비 */
-            padding: 10px; /* 내부 여백 */
-            background-color: #dc3545; /* 빨간색 배경 */
-            color: white; /* 흰색 텍스트 */
-            border: none; /* 테두리 없음 */
-            border-radius: 4px; /* 둥근 모서리 */
-            cursor: pointer; /* 마우스 오버 시 손가락 커서 */
-        }
-        /* 버튼 호버 효과 */
-        button:hover {
-            background-color: #c82333; /* 더 어두운 빨간색 */
-        }
-        /* 오류 메시지 컨테이너 누락 - 추가 필요 */
-    </style>
-</head>
-<body>
-    <!-- 탈퇴 폼 컨테이너 -->
-    <div class="delete-container">
-        <!-- 폼 제목 -->
-        <h2>회원탈퇴</h2>
-        <!-- 계정 삭제 폼 -->
-        <form id="delete-form">
-            <!-- 확인을 위한 비밀번호 입력 -->
-            <input type="password" id="password" placeholder="비밀번호 확인" required>
-            <!-- 제출 버튼 -->
-            <button type="submit">탈퇴하기</button>
-        </form>
-        <!-- 오류 메시지 컨테이너 누락 - 추가 필요 -->
-    </div>
-
-    <!-- Axios HTTP 클라이언트 라이브러리 - defer 속성 추가 권장 -->
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <script>
-        // 폼 제출 이벤트 핸들러
-        document.getElementById('delete-form').addEventListener('submit', function(e) {
-            // 기본 폼 제출 동작 방지
-            e.preventDefault();
-            // 확인용 비밀번호 가져오기
-            const password = document.getElementById('password').value;
-            // 로컬 스토리지에서 사용자 ID 가져오기
-            const id = localStorage.getItem('id'); // userIdx와 키 불일치 - 수정 필요
-            
-            // 확인 대화상자 추가 권장 - 사용자에게 한 번 더 확인
-            
-            // 사용자 계정 삭제를 위한 DELETE 요청
-            axios.delete(`http://192.168.100.152:9221/users/${id}`, {
+            axios.delete(`http://192.168.100.152:9221/users/${userIdx}`, {
                 data: { password: password }
             })
             .then(function (response) {
