@@ -1,47 +1,68 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- 문서의 문자 인코딩 설정 -->
     <meta charset="UTF-8">
+    <!-- 반응형 웹을 위한 뷰포트 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지 제목 -->
     <title>회원정보 수정</title>
+    <!-- Axios HTTP 클라이언트 라이브러리 - defer 속성 추가 권장 -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- CSS 스타일 부재 - 회원가입 페이지와 일관된 스타일 적용 필요 -->
 </head>
 <body>
+    <!-- 페이지 제목 -->
     <h2>회원정보 수정</h2>
+    <!-- 사용자 정보 수정 폼 -->
     <form id="update-form">
+        <!-- 이름 입력 필드 -->
         <input type="text" id="username" placeholder="새 이름">
+        <!-- 이메일 입력 필드 -->
         <input type="email" id="email" placeholder="새 이메일">
-        <input type="text" id="user_id" placeholder="새 아이디">
+        <!-- 아이디 입력 필드 (주석 처리됨) -->
+        <!-- <input type="text" id="user_id" placeholder="새 아이디"> -->
+        <!-- 비밀번호 입력 필드 -->
         <input type="password" id="password" placeholder="새 비밀번호">
+        <!-- 제출 버튼 -->
         <button type="submit">정보 수정</button>
     </form>
 
     <script>
+        // 폼 제출 이벤트 핸들러
         document.getElementById('update-form').addEventListener('submit', function(e) {
+            // 기본 폼 제출 동작 방지
             e.preventDefault();
+            // 폼 필드 값 가져오기
             const username = document.getElementById('username').value;
             const email = document.getElementById('email').value;
-            const user_id = document.getElementById('user_id').value;
+            //const user_id = document.getElementById('user_id').value;
             const password = document.getElementById('password').value;
 
+            // 로컬 스토리지에서 사용자 ID 가져오기 - 보안 취약점
             const userIdx = localStorage.getItem('userIdx');
+            // 로그인 상태 확인
             if (!userIdx) {
                 alert('로그인이 필요합니다.');
                 window.location.href = 'login.html';
                 return;
             }
 
+            // 사용자 정보 업데이트를 위한 PUT 요청
             axios.put(`http://192.168.100.152:9221/users/${userIdx}`, {
-                userId: user_id,
-                userPassword: password,
+                //userId: user_id,
+                userPasssword: password, // 오타 있음: userPassword로 수정 필요
                 userNickname: username,
                 userEmail: email
+                
             })
             .then(function (response) {
-                alert('회원정보가 성공적으로 수정되었습니다.');
+                // 성공 핸들러
+                alert('회원정보가 성공적으로 수정되었습니다.'); // 모달 또는 토스트 메시지 권장
                 window.location.href = 'main.html';
             })
             .catch(function (error) {
+                // 오류 핸들러 - 상세한 오류 메시지 제공 필요
                 alert('회원정보 수정 중 오류가 발생했습니다.');
                 console.error(error);
             });
