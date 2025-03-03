@@ -1,41 +1,125 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+    <!-- 문서의 문자 인코딩 설정 -->
     <meta charset="UTF-8">
+    <!-- 반응형 웹을 위한 뷰포트 설정 -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- 페이지 제목 -->
     <title>로그인</title>
+    <!-- Axios HTTP 클라이언트 라이브러리 - defer 속성 추가 권장 -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- jQuery 라이브러리 - 바닐라 JS 사용 고려 -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- 인라인 CSS 스타일 - 별도 파일로 분리 권장 -->
+    <style>
+        /* 전체 페이지 스타일링 */
+        body {
+            background-color: #f4f4f4; /* 연한 회색 배경 */
+            text-align: center; /* 텍스트 중앙 정렬 */
+            display: flex; /* flexbox 레이아웃 */
+            flex-direction: column; /* 수직 배치 */
+            align-items: center; /* 수평 중앙 정렬 */
+            /* 수직 중앙 정렬 및 전체 높이 설정 누락 */
+        }
+
+        /* 로그인 폼 컨테이너 */
+        #container {
+            border: 1px solid #ddd; /* 연한 회색 테두리 */
+            padding: 20px; /* 내부 여백 */
+            border-radius: 8px; /* 둥근 모서리 */
+            background-color: white; /* 흰색 배경 */
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* 그림자 효과 */
+            margin-bottom: 20px; /* 하단 여백 */
+            width: 300px; /* 고정 너비 - 상대 단위 권장 */
+        }
+
+        /* 제목 스타일 */
+        #container h2 {
+            color: #0056b3; /* 파란색 */
+            margin-bottom: 15px; /* 하단 여백 */
+        }
+
+        /* 입력 필드 스타일 */
+        #container input[type="text"],
+        #container input[type="password"] {
+            width: 250px; /* 고정 너비 - 상대 단위 권장 */
+            padding: 8px; /* 내부 여백 */
+            margin-bottom: 10px; /* 하단 여백 */
+            border: 1px solid #ccc; /* 연한 회색 테두리 */
+            border-radius: 4px; /* 둥근 모서리 */
+        }
+
+        /* 버튼 스타일 */
+        #container button[type="submit"] {
+            background-color: #007bff; /* 파란색 배경 */
+            color: white; /* 흰색 텍스트 */
+            padding: 10px 15px; /* 내부 여백 */
+            border: none; /* 테두리 없음 */
+            border-radius: 4px; /* 둥근 모서리 */
+            cursor: pointer; /* 마우스 오버 시 손가락 커서 */
+            width: 250px; /* 고정 너비 */
+        }
+
+        /* 버튼 호버 효과 */
+        #container button[type="submit"]:hover {
+            background-color: #0056b3; /* 더 어두운 파란색 */
+        }
+        
+        /* 오류 메시지 컨테이너 누락 - 추가 필요 */
+    </style>
 </head>
 <body>
-    <h2>로그인</h2>
-    <form id="login-form">
-        <input type="text" id="username" placeholder="아이디" required>
-        <input type="password" id="psw" placeholder="비밀번호" required>
-        <button type="submit">로그인</button>
-    </form>
+    <!-- 로그인 폼 컨테이너 -->
+    <div id="container">
+        <!-- 폼 제목 -->
+        <h2>로그인</h2>
+        <!-- 로그인 폼 -->
+        <form id="login-form">
+            <!-- 아이디 입력 필드 -->
+            <input type="text" id="username" placeholder="아이디" required><br>
+            <!-- 비밀번호 입력 필드 -->
+            <input type="password" id="psw" placeholder="비밀번호" required><br>
+            <!-- 제출 버튼 -->
+            <button type="submit">로그인</button>
+        </form>
+        <!-- 오류 메시지 컨테이너 누락 - 추가 필요 -->
+    </div>
 
     <script>
+        // 문서가 완전히 로드된 후 실행
         $(document).ready(function() {
+            // 로그인 API 엔드포인트
             const URL = "http://192.168.100.152:9221/users/login";
 
+            // 폼 제출 이벤트 핸들러
             $('#login-form').submit(function(e) {
+                // 기본 폼 제출 동작 방지
                 e.preventDefault();
                 
+                // 폼 필드 값 가져오기
                 const id = $('#username').val();
                 const pw = $('#psw').val();
                 
+                // 클라이언트 측 유효성 검사 추가 필요
+                
+                // 사용자 인증을 위한 POST 요청
                 axios.post(URL, {
                     userId: id,
                     userPassword: pw,
                 })
                 .then(function(response) {
+                    // 응답 데이터 로깅
                     console.dir(response.data);
+                    // 로컬 스토리지에 사용자 ID 저장 - JWT 토큰 사용 권장
                     localStorage.setItem('userIdx', response.data.userIdx);
-                    alert('로그인 성공!');
+                    // 성공 메시지
+                    alert('로그인 성공!'); // 모달 또는 토스트 메시지 권장
+                    // 메인 페이지로 리디렉션
                     window.location.href = 'main.html';
                 })
                 .catch(function(error) {
+                    // 오류 핸들러 - 상세한 오류 메시지 제공 필요
                     console.log(`로그인 실패: ${error}`);
                     alert('로그인에 실패했습니다.');
                 });
